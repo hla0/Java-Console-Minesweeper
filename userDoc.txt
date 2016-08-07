@@ -1,0 +1,118 @@
+Object of the game:
+
+	The object of the game is to flip all the squares in the grid that do not contain mines. Depending
+	on the difficulty you will have either 8x8(b), 12x12(i), or a 15x15(e) grid. Do not turn over a mine or else you will lose the game.
+
+Starting the game:
+
+	The game is started by either double clicking the jar file or in the directory the jar file is currently on issue the command, java -jar Game.jar .
+	Once the game is started, the console will prompt you with choosing the difficulty level by entering either b, i, or e for beginner, intermediate, or expert.
+
+How to play:
+
+	This is a M.V.C which means it follows the format of model-view-control.
+	The game is controlled by the keyboard and not the mouse and is inside the console.
+	The commands are as listed:
+
+		I : inspect - this will flip the square, if the square is a mine, will result in game over,
+			if the square has no mine but has mines around it, will give you the number of mines touching
+			that square (diagonals included); if no mines touch the selected sqaure it will automatically
+			inspect the surounding squares ("Spread"), or if there is a flag inspect will not do anything.
+		F : flag - this will flag the unflipped square marking it as a potential mine (It will be shown as a
+			P on the grid). If a square is flagged, the "Spread" functtion will skip over it.
+		U: unflag - this will unflag the corresponding square that is currently flagged at the moment.
+		Q: quit - this will end the game.
+
+	The commands i, f, and u require a location to perform an action. The location provided tells which
+	part of the grid the command is supposed to act on and will change the models state.
+
+		Example: f d2 - flags location at d2.
+
+		Wins : 0	 Loss : 0
+
+			a   b   c   d   e   f   g   h
+		  +---+---+---+---+---+---+---+---+
+		1 |   |   |   | P |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		2 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		3 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		4 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		5 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		6 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		7 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		8 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+
+		Now, if you tried i d2 or f d2 nothing would happen. To progress toward winning the game you must inspect all squares without a mine so you have to make a guess to start
+		like i c3.
+
+			a   b   c   d   e   f   g   h
+		  +---+---+---+---+---+---+---+---+
+		1 |   |   |   | P |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		2 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		3 |   |   | 4 |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		4 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		5 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		6 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		7 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+		8 |   |   |   |   |   |   |   |   |
+		  +---+---+---+---+---+---+---+---+
+
+		The number 4 appears at c3 showing that there are 4 squares with mines adjacent to the square, but that does not give you any info to progress. Now i g1.
+
+		Wins : 0	 Loss : 0
+
+		    a   b   c   d   e   f   g   h
+		  +---+---+---+---+---+---+---+---+
+		1 |   |   |   |   | 1 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		2 |   |   |   | P | 1 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		3 |   |   | 4 |   | 2 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		4 |   |   |   |   | 2 | 1 | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		5 |   |   |   |   |   |   | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		6 |   |   |   |   |   | 2 | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		7 |   |   |   |   |   | 1 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		8 |   |   |   |   |   | 1 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+
+		Notice how inspect called all the adjacent squares near 0. It does that because it knows there cannot be any mines near it and speeds up the game. The game is finished once all the
+		squares without mines are flipped and display their number.
+
+		Win : 1	 Loss : 0
+			a   b   c   d   e   f   g   h
+		  +---+---+---+---+---+---+---+---+
+		1 | 1 | 2 | 3 | 2 | 1 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		2 | 1 | P | P | P | 1 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		3 | 2 | 3 | 4 | 3 | 2 | 0 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		4 | P | 1 | 1 | P | 2 | 1 | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		5 | 1 | 1 | 1 | 1 | 2 | P | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		6 | 0 | 0 | 0 | 1 | 2 | 2 | 1 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		7 | 1 | 2 | 3 | 3 | P | 1 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
+		8 | 1 | P | P | P | 2 | 1 | 0 | 0 |
+		  +---+---+---+---+---+---+---+---+
